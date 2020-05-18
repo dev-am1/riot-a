@@ -7,9 +7,9 @@
 steps:
   - label: "Assemble GPlay Debug version"
     agents:
-        # We use a medium sized instance instead of the normal small ones because
-        # gradle build is long
-        queue: "xlarge"
+      # We use a medium sized instance instead of the normal small ones because
+      # gradle build is long
+      queue: "xlarge"
     commands:
       - "./set_debug_env.sh"
       - "./gradlew --no-daemon clean lintAppRelease assembleAppDebug --stacktrace"
@@ -17,14 +17,14 @@ steps:
       - "vector/build/outputs/apk/app/debug/*.apk"
     branches: "develop feature/*"
     plugins:
-    - docker#v3.1.0:
+      - docker#v3.1.0:
           image: "runmymind/docker-android-sdk"
 
   - label: "Assemble FDroid Debug version"
     agents:
-        # We use a medium sized instance instead of the normal small ones because
-        # gradle build is long
-        queue: "xlarge"
+      # We use a medium sized instance instead of the normal small ones because
+      # gradle build is long
+      queue: "xlarge"
     commands:
       - "./set_debug_env.sh"
       - "./gradlew --no-daemon clean lintAppfdroidRelease assembleAppfdroidDebug --stacktrace"
@@ -32,24 +32,24 @@ steps:
       - "vector/build/outputs/apk/appfdroid/debug/*.apk"
     branches: "develop feature/*"
     plugins:
-    - docker#v3.1.0:
+      - docker#v3.1.0:
           image: "runmymind/docker-android-sdk"
 
   - label: "Build Google Play unsigned APK"
     agents:
-        # We use a medium sized instance instead of the normal small ones because
-        # gradle build is long
-        queue: "xlarge"
+      # We use a medium sized instance instead of the normal small ones because
+      # gradle build is long
+      queue: "xlarge"
     commands:
       - "./gradlew --no-daemon clean assembleAppRelease --stacktrace"
     artifact_paths:
       - "vector/build/outputs/apk/app/release/*.apk"
     branches: "master"
     plugins:
-    - docker#v3.1.0:
+      - docker#v3.1.0:
           image: "runmymind/docker-android-sdk"
 
-# Code quality
+  # Code quality
 
   - label: "Code quality"
     commands:

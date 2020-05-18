@@ -32,10 +32,10 @@ class DebugReceiver : BroadcastReceiver() {
         Log.d(LOG_TAG, "Received debug action: ${intent.action}")
 
         when (intent.action) {
-            DEBUG_ACTION_DUMP_FILESYSTEM    -> lsFiles(context)
-            DEBUG_ACTION_DUMP_PREFERENCES   -> dumpPreferences(context)
+            DEBUG_ACTION_DUMP_FILESYSTEM -> lsFiles(context)
+            DEBUG_ACTION_DUMP_PREFERENCES -> dumpPreferences(context)
             DEBUG_ACTION_ALTER_SCALAR_TOKEN -> alterScalarToken(context)
-            DEBUG_ACTION_ALTER_AUTH_TOKEN   -> alterAuthToken(context)
+            DEBUG_ACTION_ALTER_AUTH_TOKEN -> alterAuthToken(context)
         }
     }
 

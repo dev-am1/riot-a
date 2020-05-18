@@ -25,6 +25,8 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import im.vector.BuildConfig.IS_SABA
+import im.vector.R
 import im.vector.activity.LoginActivity
 import im.vector.util.checkPermissions
 import kotlin.Exception
@@ -38,13 +40,11 @@ object ServerUrlsRepository {
     // Keys used to store default servers urls from the referrer
     private const val DEFAULT_REFERRER_HOME_SERVER_URL_PREF = "default_referrer_home_server_url"
     private const val DEFAULT_REFERRER_IDENTITY_SERVER_URL_PREF = "default_referrer_identity_server_url"
+
     // Keys used to store current home server url and identity url
     const val HOME_SERVER_URL_PREF = "home_server_url"
     const val IDENTITY_SERVER_URL_PREF = "identity_server_url"
-    private val BASE_CONTENT_URI = Uri.parse("com.amirmoradi.cpforaddress.AProvider")
-    private val CONTENT_URI = Uri.parse("content://$BASE_CONTENT_URI")
-    private val CONTENT_URI_TABLE = Uri.withAppendedPath(CONTENT_URI,"apps")
-    enum class ADDRESS{ONE,TWO}
+
     /**
      * Save home and identity sever urls received by the Referrer receiver
      */
@@ -110,54 +110,35 @@ object ServerUrlsRepository {
      */
 
     fun getDefaultHomeServerUrl(context: Context): String {
-        val log:String = getUrlFromProvider(context,ADDRESS.ONE)
-        Log.d("Url is ",log)
-        return log
+        if (IS_SABA) {
+            val log: String = UseAddressProvider.getUrlFromProvider(context)
+            Log.d("Home Server Url is ", log)
+            return log
+        } else {
+            return context.getString(R.string.default_hs_server_url)
+        }
     }
 
 
     /**
      * Return default identity server url from resources
      */
-    fun getDefaultIdentityServerUrl(context: Context): String  {
-        val log:String = getUrlFromProvider(context,ADDRESS.TWO)
-        Log.d("Url is ",log)
-        return log
+    fun getDefaultIdentityServerUrl(context: Context): String {
+        if (IS_SABA) {
+            val log: String = UseAddressProvider.getUrlFromProvider(context)
+            Log.d("Identity Url is ", log)
+            return log
+        } else {
+            return context.getString(R.string.default_identity_server_url)
+        }
     }
-            //context.getString(R.string.default_identity_server_url)
+    //context.getString(R.string.default_identity_server_url)
 
     /**
      * In case of using two different Urls for the app,
      * Provider database has app_url_code for different urls for the same app,
      * for the test purpose used boolean var to select and return required url.
      */
-    private fun getUrlFromProvider (context : Context , selectADDRESS: ADDRESS) : String {// number 1 = true , number 2 = false
-        val singleUri: Uri = ContentUris.withAppendedId(CONTENT_URI_TABLE, 1)
 
-        val projection : Array<String> = arrayOf("url")
-//        val user : ContentProviderClient? = context.contentResolver.acquireContentProviderClient(CONTENT_URI)
-        val cursor : Cursor? =context.contentResolver.query(singleUri,null,null,null,null)
-        cursor?.moveToFirst()
-        if (cursor != null){
-            Log.d("cursor value is",cursor.getString(2))
-            //
-            do {
-                if (cursor.getString(1).equals("riot",true) ) {
-                    when (selectADDRESS){
-                        (ADDRESS.ONE) -> { return cursor.getString(2)}
-                        (ADDRESS.TWO) -> { return cursor.getString(3)}
-                        else -> {throw Exception("Address is not available")}
-                    }
-                }
-
-            } while ((cursor.moveToNext()))
-            //
-
-        } else {
-            Log.d("cursor is ","Null")
-        }
-        cursor?.close()
-        return "No Url"
-    }
 
 }

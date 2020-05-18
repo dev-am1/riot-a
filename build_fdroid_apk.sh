@@ -1,4 +1,3 @@
-
 rm -rf vector/libs
 mkdir vector/libs
 
@@ -7,4 +6,3 @@ sh build_matrix_sdk_lib.sh master
 sh build_olm_lib.sh
 
 ./gradlew lintAppfdroidRelease assembleAppfdroidRelease
-

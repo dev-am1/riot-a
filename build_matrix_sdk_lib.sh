@@ -28,14 +28,14 @@ fi
 branch=$1
 
 if [ -z "$branch" ]; then
-   echo "Please specify the branch to build as a parameter"
-   exit 1
+  echo "Please specify the branch to build as a parameter"
+  exit 1
 fi
 
 echo ${branch}
 
 echo "Save current dir"
-currentDir=`pwd`
+currentDir=$(pwd)
 
 echo "up dir"
 cd ..

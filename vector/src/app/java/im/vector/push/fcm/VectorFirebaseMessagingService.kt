@@ -204,7 +204,8 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
 
                     if (notifiableEvent is NotifiableMessageEvent) {
                         if (TextUtils.isEmpty(notifiableEvent.senderName)) {
-                            notifiableEvent.senderName = data["sender_display_name"] ?: data["sender"] ?: ""
+                            notifiableEvent.senderName = data["sender_display_name"]
+                                    ?: data["sender"] ?: ""
                         }
                         if (TextUtils.isEmpty(notifiableEvent.roomName)) {
                             notifiableEvent.roomName = findRoomNameBestEffort(data, session) ?: ""

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 adb shell am broadcast -a com.android.vending.INSTALL_REFERRER \
   -n im.vector.app/im.vector.receiver.VectorReferrerReceiver \
   --es "referrer" "utm_source=migrator\&utm_medium=web\&utm_content%3Dis%253Dhttps%253A%252F%252Fvector.im%252526hs%253Dhttps%253A%252F%252Ftadhack.vector.im"
